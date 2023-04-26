@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  role_name: datasaker
+  namespace: datasaker
+  author: 'Datasaker'
+  description: Install Datasaker agent
+  license: Apache2
+  min_ansible_version: 2.6
+  github_branch: main
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+    - name: Debian
+      versions:
+        - jessie
+  galaxy_tags:
+    - monitoring
+dependencies: []
