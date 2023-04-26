@@ -1,0 +1,35 @@
+---
+# defaults file for datasaker
+
+datagate_trace_url: gate.kr.datasaker.io
+datagate_trace_port: 31300
+datagate_trace_timeout: 5s
+
+datagate_manifest_url: gate.kr.datasaker.io
+datagate_manifest_port: 31301
+datagate_manifest_timeout: 5s
+
+datagate_metric_url: gate.kr.datasaker.io
+datagate_metric_port: 31302
+datagate_metric_timeout: 5s
+
+datagate_plan_url: gate.kr.datasaker.io
+datagate_plan_port: 31303
+datagate_plan_timeout: 5s
+
+datagate_loggate_url: gate.kr.datasaker.io
+datagate_loggate_port: 31304
+datagate_loggate_timeout: 5s
+
+datasaker_api_url: api.kr.datasaker.io
+datasaker_api_send_interval: 1m
+
+apt_trusted_d_keyring: "/etc/apt/trusted.gpg.d/datasaker-archive-keyring.gpg"
+apt_usr_share_keyring: "/usr/share/keyrings/datasaker-archive-keyring.gpg"
+
+dsk_public_gpg_key: "https://dsk-agent-s3.s3.ap-northeast-2.amazonaws.com/dsk-agent-s3/public/public.gpg.key"
+
+datasaker_agents: []
+
+uninstall: False
+datasaker_clean: False

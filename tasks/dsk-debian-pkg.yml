@@ -1,0 +1,77 @@
+---
+- name: "Setting global-config"
+  template:
+    src: global-config.yml.j2
+    dest: "/etc/datasaker/global-config.yml"
+
+- name: "Create temporary directory for key manipulation"
+  tempfile:
+    state: directory
+    suffix: keys
+  register: tempdir
+
+- name: "download keyring then add key to keyring"
+  get_url:
+    url: "{{ dsk_public_gpg_key }}"
+    dest: "{{ tempdir.path }}/datasaker.gpg.key"
+    force: yes
+
+- name: "Ensure downloaded file for binary keyring"
+  shell: "cat {{ tempdir.path }}/datasaker.gpg.key | sudo gpg --import --batch --no-default-keyring --keyring {{ apt_usr_share_keyring }}"
+
+- name: "copy keyring to trusted keyring"
+  copy:
+    src: "{{ apt_usr_share_keyring }}"
+    dest: "{{ apt_trusted_d_keyring }}"
+    mode: "0600"
+    remote_src: yes
+
+- name: "Remove temporary directory for key manipulation"
+  file:
+    path: "{{ tempdir.path }}"
+    state: absent
+
+- name: "Add datasaker repository"
+  apt_repository:
+    repo: "deb [signed-by={{ apt_usr_share_keyring }}] https://nexus.exem-oss.org/repository/debian-repos/ ubuntu main"
+    state: present
+    filename: datasaker.list
+
+- name: "Check datasaker Agent"
+  include_tasks: check-agent.yml
+
+- name: "Install metric sidecar"
+  apt:
+    name: "dsk-metric-sidecar"
+    state: present
+    update_cache: yes
+
+- name: Make Datasaker Log Directory
+  ansible.builtin.file:
+    path: "/var/log/datasaker/{{ item }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+  with_items:
+    - "{{ datasaker_agents }}"
+
+- name: "Install datasaker agent"
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "{{ datasaker_agents }}"
+  notify:
+    - Reload systemd configuration
+    - Restart {{ item }} service
+
+# - name: "Ensure datasaker agent is running"
+#   service:
+#     name: "{{ item }}"
+#     state: started
+#     enabled: yes
+#   with_items:
+#     - "{{ datasaker_agents }}"    
+

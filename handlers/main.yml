@@ -1,0 +1,34 @@
+---
+- name: Reload systemd configuration
+  service:
+    daemon_reload: True
+
+- name: Restart dsk-trace-agent service
+  service:
+    name: dsk-trace-agent
+    enabled: true
+    state: restarted
+
+- name: Restart dsk-node-agent service
+  service:
+    name: dsk-node-agent
+    enabled: true
+    state: restarted
+
+- name: Restart dsk-log-agent service
+  service:
+    name: dsk-log-agent
+    enabled: true
+    state: restarted
+
+- name: Restart dsk-postgres-agent service
+  service:
+    name: dsk-postgres-agent
+    enabled: true
+    state: restarted
+
+- name: Restart dsk-plan-postgres-agent service
+  service:
+    name: dsk-plan-postgres-agent
+    enabled: true
+    state: restarted    

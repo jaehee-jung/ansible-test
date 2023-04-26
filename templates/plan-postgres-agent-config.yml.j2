@@ -1,0 +1,18 @@
+agent:
+  metadata:
+    agent_name: "{{ plan_postgres_agent_name | default('dsk-plan-postgres-agent') }}"
+    cluster_id: "{{ plan_postgres_agent_cluster_id | default('REPLACE_CLUSTER_ID') }}"
+  data_source_name:
+    user: "{{ plan_postgres_user_name | default('') }}"
+    password: "{{ plan_postgres_user_password | default('') }}"
+    address: "{{ plan_postgres_database_address | default('') }}"
+    port: "{{ plan_postgres_database_port | default('') }}"
+    DBName: "{{ plan_postgres_database_name | default('') }}"
+  explain:
+    scrape_interval: "{{ plan_postgres_scrape_interval | default('30s') }}"
+    scrape_timeout: "{{ plan_postgres_scrape_timeout | default('5s') }}"
+    slow_query_standard: "{{ plan_postgres_slow_query_standard | default('5s') }}"
+    executor_number: "{{ plan_postgres_executor_number | default('10') }}"
+    sender_number: "{{ plan_postgres_sender_number | default('10') }}"
+    activity_query_buffer: "{{ plan_postgres_activity_query_buffer | default('50') }}"
+    plan_sender_buffer: "{{ plan_postgres_plan_sender_buffer | default('50') }}"

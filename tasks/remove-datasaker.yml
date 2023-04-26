@@ -1,0 +1,54 @@
+---
+# - name: "Install metric sidecar"
+#   apt:
+#     name: "dsk-metric-sidecar"
+#     state: present
+#     update_cache: yes
+
+- name: Remove Datasaker Log Directory
+  ansible.builtin.file:
+    path: "/var/log/datasaker/{{ item }}"
+    state: absent
+  with_items:
+    - "{{ datasaker_agents }}"
+
+- name: Remove Datasaker Agent Directory
+  ansible.builtin.file:
+    path: "/etc/datasaker/{{ item }}"
+    state: absent
+  with_items:
+    - "{{ datasaker_agents }}"
+
+- name: Stop agent service
+  service:
+    name: "{{ item }}"
+    enabled: true
+    state: stopped
+  with_items:
+    - "{{ datasaker_agents }}"
+  ignore_errors: true
+
+- name: "Uninstall datasaker agent"
+  apt:
+    name: "{{ item }}"
+    state: absent
+    update_cache: yes
+  with_items:
+    - "{{ datasaker_agents }}"
+  ignore_errors: true
+
+- name: Remove Datasaker Agent Directory
+  ansible.builtin.file:
+    path: "/etc/datasaker/{{ item }}"
+    state: absent
+  with_items:
+    - "{{ datasaker_agents }}"
+
+- name: Remove Datasaker All Directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/datasaker
+    - /var/log/datasaker
+  when: datasaker_clean == True

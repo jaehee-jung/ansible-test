@@ -1,0 +1,18 @@
+agent:
+  metadata:
+  # agent_name: my-dsk-node-agent
+  # cluster_id: my-cluster
+  option:
+    exporter_config:
+      command: "dsk-node-exporter"
+      port: 19110
+      args:
+        - --collector.filesystem.ignored-mount-points="^/(dev|proc|sys|run|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)"
+        - --collector.tcpstat
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    scrape_configs:
+      - job_name: dsk-node-agent
+        url: localhost:19110
+        filtering_configs:
+          rule: drop

@@ -1,0 +1,15 @@
+---
+- name: Make agent Directory
+  ansible.builtin.file:
+    path: "/etc/datasaker/{{ item }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+  with_items:
+    - "dsk-node-agent"
+
+- name: "Setting dsk-node-agent config"
+  template:
+    src: node-agent-config.yml.j2
+    dest: "/etc/datasaker/dsk-node-agent/agent-config.yml"

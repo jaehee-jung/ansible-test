@@ -1,0 +1,15 @@
+---
+- name: Make agent Directory
+  ansible.builtin.file:
+    path: "/etc/datasaker/{{ item }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+  with_items:
+    - "dsk-log-agent"
+
+- name: "Setting dsk-log-agent config"
+  template:
+    src: log-agent-config.yml.j2
+    dest: "/etc/datasaker/dsk-log-agent/agent-config.yml"

@@ -1,0 +1,20 @@
+---
+- name: Check dsk-node-agent
+  include_tasks: dsk-node-agent.yml
+  when: '"dsk-node-agent" in datasaker_agents'
+
+- name: Check dsk-trace-agent
+  include_tasks: dsk-trace-agent.yml
+  when: '"dsk-trace-agent" in datasaker_agents'
+
+- name: Check dsk-log-agent
+  include_tasks: dsk-log-agent.yml
+  when: '"dsk-log-agent" in datasaker_agents'
+
+- name: Check dsk-postgres-agent
+  include_tasks: dsk-postgres-agent.yml
+  when: '"dsk-postgres-agent" in datasaker_agents'
+
+- name: Check dsk-plan-postgres-agent
+  include_tasks: dsk-plan-postgres-agent.yml
+  when: '"dsk-plan-postgres-agent" in datasaker_agents'

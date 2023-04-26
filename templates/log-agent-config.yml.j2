@@ -1,0 +1,35 @@
+agent:
+  metadata:
+    agent_name: "{{ log_agent_name | default('dsk-log-agent') }}"
+    cluster_id: "{{ log_agent_cluster_id | default('unknown') }}"
+  environment: "{{ log_agent_environment | default('etc') }}"
+  collect:
+    - paths:
+{% if paths is defined and paths | length > 0 %}
+{% for path in paths %}
+        - "{{ path | default('') }}"
+{% endfor %}
+{% else %}
+        - /var/log/*/*.log
+{% endif %}
+{% if exclude_paths is defined and exclude_paths | length > 0 %}
+      exclude_paths:
+{% for exclude_path in exclude_paths %}
+        - "{{ exclude_path | default('') }}"
+{% endfor %}
+{% else %}
+      exclude_paths: []
+{% endif %}
+{% if keywords is defined and keywords | length > 0 %}
+      keywords:         
+{% for keyword in keywords %}
+        - "{{ keyword | default('') }}"
+{% endfor %}
+{% else %}
+      keywords: []
+{% endif %}        
+      tag: "{{ log_agent_tag | default('sample') }}"
+      service:
+        name: "{{ log_agent_service_name | default('test') }}"
+        category: "{{ log_agent_service_category | default('etc') }}"
+        type: "{{ log_agent_service_type | default('etc') }}"

@@ -1,0 +1,22 @@
+global:
+  api_key: {{ datasaker_api_key }}
+  gates:
+    trace_datagate:
+      url: {{ datagate_trace_url }}:{{ datagate_trace_port }}
+      remote_timeout: {{ datagate_trace_timeout }}
+    manifest_datagate:
+      url: {{ datagate_manifest_url }}:{{ datagate_manifest_port }}
+      remote_timeout: {{ datagate_manifest_timeout }}
+    metric_datagate:
+      url: {{ datagate_metric_url }}:{{ datagate_metric_port }}
+      remote_timeout: {{ datagate_metric_timeout }}
+    plan_datagate:
+      url: {{ datagate_plan_url }}:{{ datagate_plan_port }}
+      remote_timeout: {{ datagate_plan_timeout }}
+    loggate:
+      url: {{ datagate_loggate_url }}:{{ datagate_loggate_port }}
+      remote_timeout: {{ datagate_loggate_timeout }}
+  agent_manager:
+    url: {{ datasaker_api_url }}
+    base_url: /dsk-agentmanager-api/agent
+    send_interval: {{ datasaker_api_send_interval }}
