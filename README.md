@@ -7,34 +7,36 @@ The Ansible Datasaker role installs and configures the Datasaker Agent and integ
 ### Requirements
 
 - Requires Ansible v2.6+.
-- Supports most Debian and RHEL-based Linux distributions.
+- Supports most Debian Linux distributions.
 
 ### Installation
 
-Install the [Datasaker role][1] from Ansible Galaxy on your Ansible server:
+Install the [Datasaker role] from Ansible Galaxy on your Ansible server:
 
 ```shell
-ansible-galaxy install datasaker.datasaker
+ansible-galaxy install jaehee_jung.havelight
 ```
 
 To deploy the Datasaker Agent on hosts, add the Datasaker role and your API key to your playbook:
 
 ```text
 - hosts: servers
+  become: true
   roles:
-    - { role: datasaker.datasaker, become: yes }
+    - role: jaehee_jung.havelight
   vars:
-    datasaker_api_key: "<YOUR_DD_API_KEY>"
+    datasaker_api_key: "<YOUR_API_KEY>"
+    datasaker_agents: ["<AGENT_NAME>"]
 ```
 
 #### Role variables
 
 | Variable                                   | Description                                                                                                                                                                                                                                                                                                                                                        |
 |--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `datasaker_api_key`                          | Your Datasaker API key.                                                                                                                                                                                                                                                                                                                                              |
-| `datasaker_site`                             | The site of the Datasaker intake to send Agent data to. Defaults to `datasakerhq.com`, set to `datasakerhq.eu` to send data to the EU site. This option is only available with Agent version >= 6.6.0.                                                                                                                                                                   |
-
-| `datasaker_agent_major_version`              | The major version of the Agent to install. The possible values are 5, 6, or 7 (default). If `datasaker_agent_version` is set, it takes precedence otherwise the latest version of the specified major is installed. Setting `datasaker_agent_major_version` is not needed if `datasaker_agent_version` is used.                                                          |
+| `datasaker_api_key`| Your Datasaker API key. |
+| `datasaker_agents`| Set to Datasaker Agent.<br>`dsk_node_agent` `dsk_trace_agent` `dsk_log_agent` `dsk-postgres-agent` `dsk-plan-postgres-agent`<br><br>(default) `dsk_node_agent`|
+| `datagate_url`| The site of the Datasaker intake to send Agent data to.<br>(default) `gate.kr.datasaker.io`|
+| `datasaker_agent_major_version`| The major version of the Agent to install. The possible values are 5, 6, or 7 <br>(default)|
 
 ### Integrations
 
